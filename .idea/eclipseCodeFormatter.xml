@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="EclipseCodeFormatterProjectSettings">
+    <option name="projectSpecificProfile">
+      <ProjectSpecificProfile>
+        <option name="eclipseVersion" value="CUSTOM" />
+        <option name="enableJSFormatting" value="true" />
+        <option name="formatter" value="ECLIPSE" />
+        <option name="pathToConfigFileJS" value="D:/files/Java项目开发环境增强配置说明/formatter-js.xml" />
+        <option name="pathToConfigFileJava" value="D:/files/Java项目开发环境增强配置说明/formatter-java.xml" />
+        <option name="pathToEclipse" value="D:/software/eclipse2" />
+        <option name="selectedJavaProfile" value="Default" />
+        <option name="selectedJavaScriptProfile" value="Default" />
+      </ProjectSpecificProfile>
+    </option>
+  </component>
+</project>

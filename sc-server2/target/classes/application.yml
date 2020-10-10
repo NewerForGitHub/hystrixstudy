@@ -1,0 +1,20 @@
+server:
+  port: 8002
+
+#spring配置
+spring:
+  application:
+    name: sc-server2
+
+#eureka配置
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+  instance:
+    instance-id: sc-server2
+
+#info配置
+info:
+  app.name: sc-server2
+  company.name: com.sc

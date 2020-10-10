@@ -1,0 +1,46 @@
+server:
+  port: 81
+
+#spring配置
+spring:
+  application:
+    name: sc-client
+
+#eureka 配置
+eureka:
+  client:
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+
+#hystrix 配置
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000
+
+#ribbon 配置
+ribbon:
+  MaxAutoRetries: 1 #最大重试次数，当Eureka中可以找到服务，但是服务连不上时将会重试
+  MaxAutoRetriesNextServer: 1 #切换实例的重试次数
+  OkToRetryOnAllOperations: false # 对所有的操作请求都进行重试，如果是get则可以，如果是post,put等操作没有实现幂等的情况下是很危险的，所以设置为false
+  ConnectTimeout: 1000 #请求连接的超时时间
+  ReadTimeout: 3000 #请求处理的超时时间
+
+#actuator 配置
+management:
+  server:
+    port: 54001
+    servlet:
+      context-path: /
+    ssl:
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    health:
+      show-details: always

@@ -1,0 +1,17 @@
+server:
+  port: 7001
+spring:
+  application:
+    name: Eureka-7001
+#eureka配置
+eureka:
+  instance:
+    hostname: localhost           #eureka服务端实例名称
+  #    prefer-ip-address: true
+  client:
+    register-with-eureka: false   #师傅像eureka注册中心注册自己
+    fetch-registry: false         #false表示自己为注册中心
+    service-url:                  #监控页面
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    enableSelfPreservation: false
