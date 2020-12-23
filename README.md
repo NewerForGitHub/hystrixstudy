@@ -110,12 +110,12 @@ hystrixstudy
 
 <h5>&nbsp;&nbsp;4.2.线程池对信号量的优劣对比</h5>
 
-&nbsp;&nbsp;&nbsp;&nbsp;优势
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;减少所依赖服务发生故障时的影响面，比如ServiceA服务发生异常，导致请求大量超时，对应的线程池被打满，这时并不影响ServiceB、ServiceC的调用。
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果接口性能有变动，可以方便的动态调整线程池的参数或者是超时时间，前提是Hystrix参数实现了动态调整。
+&nbsp;&nbsp;&nbsp;&nbsp;优势<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;减少所依赖服务发生故障时的影响面，比如ServiceA服务发生异常，导致请求大量超时，对应的线程池被打满，这时并不影响ServiceB、ServiceC的调用。<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果接口性能有变动，可以方便的动态调整线程池的参数或者是超时时间，前提是Hystrix参数实现了动态调整。<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;缺点
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请求在线程池中执行，肯定会带来任务调度、排队和上下文切换带来的开销。
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;因为涉及到跨线程，那么就存在ThreadLocal数据的传递问题，比如在主线程初始化的ThreadLocal变量，在线程池线程中无法获取
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请求在线程池中执行，肯定会带来任务调度、排队和上下文切换带来的开销。<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;因为涉及到跨线程，那么就存在ThreadLocal数据的传递问题，比如在主线程初始化的ThreadLocal变量，在线程池线程中无法获取<br/>
 
 <h3>5、Hystrix监控</h3>
 
