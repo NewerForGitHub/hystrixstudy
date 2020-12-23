@@ -93,7 +93,31 @@ hystrixstudy
 <h5>&nbsp;&nbsp;3.4.扩展说明：</h5>
 
 &nbsp;&nbsp;&nbsp;&nbsp;超时时间配置
-<h3>4、Hystrix监控</h3>
+
+<h3>4、Hystrix支持两种模式执行逻辑：线程池、信号量</h3>
+
+<h5>&nbsp;&nbsp;4.1.信号量模式</h5>
+
+&nbsp;&nbsp;&nbsp;&nbsp;在该模式下，接收请求和执行下游依赖在同一个线程内完成，不存在线程上下文切换所带来的性能开销，所以大部分场景应该选择信号量模式。
+
+&nbsp;&nbsp;&nbsp;&nbsp;但是在下面这种情况下，信号量模式并非是一个好的选择。比如一个接口中依赖了3个下游：serviceA、serviceB、serviceC，且这3个服务返回的数据互相不依赖，这种情况下如果针对A、B、C的熔断降级使用信号量模式，那么接口耗时就等于请求A、B、C服务耗时的总和，此时信号量方案并不适用。
+
+&nbsp;&nbsp;&nbsp;&nbsp;另外，为了限制对下游依赖的并发调用量，可以配置Hystrix的execution.isolation.semaphore.maxConcurrentRequests，当并发请求数达到阈值时，请求线程可以快速失败，执行降级。实现也很简单，一个简单的计数器，当请求进入熔断器时，执行tryAcquire(),计数器加1，结果大于阈值的话，就返回false，发生信号量拒绝事件，执行降级逻辑。当请求离开熔断器时，执行release()，计数器减1。
+
+<h5>&nbsp;&nbsp;4.2.线程池模式（默认）</h5>
+
+&nbsp;&nbsp;&nbsp;&nbsp;在该模式下，用户请求会被提交到各自的线程池中执行，把执行每个下游服务的线程分离，从而达到资源隔离的作用。当线程池来不及处理并且请求队列塞满时，新进来的请求将快速失败，可以避免依赖问题扩散。对所依赖的多个下游服务，通过线程池的异步执行，可以有效的提高接口性能。
+
+<h5>&nbsp;&nbsp;4.2.线程池对信号量的优劣对比</h5>
+
+&nbsp;&nbsp;&nbsp;&nbsp;优势
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;减少所依赖服务发生故障时的影响面，比如ServiceA服务发生异常，导致请求大量超时，对应的线程池被打满，这时并不影响ServiceB、ServiceC的调用。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果接口性能有变动，可以方便的动态调整线程池的参数或者是超时时间，前提是Hystrix参数实现了动态调整。
+&nbsp;&nbsp;&nbsp;&nbsp;缺点
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请求在线程池中执行，肯定会带来任务调度、排队和上下文切换带来的开销。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;因为涉及到跨线程，那么就存在ThreadLocal数据的传递问题，比如在主线程初始化的ThreadLocal变量，在线程池线程中无法获取
+
+<h3>5、Hystrix监控</h3>
 
 &nbsp;&nbsp;&nbsp;&nbsp;引入actuator包：org.springframework.boot:spring-boot-starter-actuator
 
